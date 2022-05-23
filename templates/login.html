@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<style>
+  body{
+    background-color: rgb(0, 0, 0);
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row justify-items-center">
+    <div class="col-md-6 mt-3 mx-auto">
+      {% include "notif.html" %}
+      <div class="card shadow-lg border-0">
+        <div class="card-header">
+          <h3 class=""><i class="fas fa-user-shield text-primary"></i>  Sign In </h3>
+        </div>
+        <form method="post" class="card-body">
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <div class="input-group">
+              <input type="text" class="form-control" name="email" id="email" placeholder="email">
+            </div>
+            <small id="usernameHelpId" class="form-text text-muted">enter registered email</small>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" name="password" id="password" placeholder="password">
+            </div>
+          </div>
+          
+          <button class="btn btn-outline-primary btn-lg btn-block mt-5" type="submit">Submit <i class="fa fa-arrow-right" aria-hidden="true"></i> </button>
+          <a href="/forgot" class="lead">Forgot Password ?</a>
+        </form>
+      </div>
+      <div class="card-footer bg-secondary">
+        <h4 class="text-white">Need an account</h4>
+        
+        <p class="card-text text-white">
+          It's free to join and easy to use. Continue on to create your account and get to use this awesome project.  
+        </p>
+        <a name="" id="" class="btn btn-primary" href="/register">Register</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

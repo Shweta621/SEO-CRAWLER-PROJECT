@@ -1,0 +1,13 @@
+body{
+    background-color: rgba(228, 175, 175, 0.438);
+  }
+
+.container{
+    padding-top: 50px;
+}
+
+.container .form-group .row .col-md-4{
+    color: blue;
+    font-size: 40px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}

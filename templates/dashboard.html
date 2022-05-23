@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<style>
+  body{
+    background-image: url('https://images.unsplash.com/photo-1528460033278-a6ba57020470?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8YmxhbmslMjBiYWNrZ3JvdW5kfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid p-5">
+  <div class="row p-5">
+    {% include "notif.html" %}
+    <form method="post" autocomplete="off" class="col-md-8 mx-auto f1" >
+      <label for="website">Enter the Website</label>
+
+      <div class="input-group">
+        <input type="text" class="form-control form-control-lg" name="website" id="website">
+        <button class="btn btn-primary collectbtn">collect result</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+<div class="container">
+  <div class="row">
+    {% if session.website %}
+    <div class="col-md-3 mx-auto column_names">
+      <a href="/results" class="btn btn-lg btn-warning">View formatted results</a>
+    </div>
+    {% else %}
+        
+    {% endif %}
+    
+  </div>
+</div>
+<div class="container">
+  <div class="form-group">
+    
+    <div class="row mt-5 ">
+    <div class="col">
+      <div class="extracted"></div>
+    </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+  $(function () {
+    $('.f1').on('submit',function(e){
+      let wb = $('#website').val()
+      if (wb.length>0){
+        e.preventDefault()
+        $(this).html(`
+        <div class="d-flex align-items-center">
+          <strong>Collecting Data from website will take upto 5 mins...</strong>
+          <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+        </div>
+        `)
+        $.ajax({
+          type: "POST",
+          url: "/collect_data",
+          data: {website:wb},
+          success: function (response) {
+            console.log(response)
+            $('.f1').html(`
+            <form method="post" autocomplete="off" class="col-md-8 mx-auto f1" >
+              <label for="website">Enter the Website</label>
+              <div class="input-group">
+                <input type="text" class="form-control form-control-lg" name="website" id="website">
+                <button class="btn btn-primary collectbtn">collect result</button>
+              </div>
+              <div class="text-success">Data Collected from the website</div>
+            </form> 
+            `)
+            Swal.fire(
+            'Good job!',
+            'the data was scraped!',
+            'success'
+            )
+            $('.extracted').html(response.df)
+            $('table').addClass('table table-bordered table-hovered table-striped table-responsive bg-white ')
+            
+          },
+          error: function(error){
+            console.log(error)
+            $('.f1').html(`
+            <form method="post" autocomplete="off" class="col-md-8 mx-auto f1" >
+              <label for="website">Enter the Website</label>
+              <div class="input-group">
+                <input type="text" class="form-control form-control-lg" name="website" id="website">
+                <button class="btn btn-primary collectbtn">collect result</button>
+              </div>
+              <div class="text-danger">Data could not be Collected from the website</div>
+            </form> 
+            `)
+            Swal.fire({
+              icon: 'error',
+              title: 'Failed to collect Info',
+              text: 'Something went wrong!',
+            })
+          }
+        });
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'No Website Name',
+          text: 'Please enter the name of the website for SEO research',
+        })
+      }
+    })
+  });
+</script>
+{% endblock %}
+
+
