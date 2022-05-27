@@ -4,6 +4,7 @@ from models import db, creatuser, User
 from flask import Flask, jsonify, render_template, request, flash, redirect, url_for,session
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.sqlite'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'thisisaverysecretkey'
 import pandas as pd
 import advertools as adv

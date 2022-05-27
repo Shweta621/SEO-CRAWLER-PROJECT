@@ -2,10 +2,13 @@
 
 {% block css %}
 <style>
-    body{
+    body {
         background-image: url('https://images.unsplash.com/photo-1528460033278-a6ba57020470?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8YmxhbmslMjBiYWNrZ3JvdW5kfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500');
         background-size: cover;
         background-repeat: no-repeat;
+    }
+    th{
+        text-align: left;
     }
 </style>
 {% endblock %}
@@ -15,27 +18,27 @@
     {% for col in cols %}
     <span class="col_name">{{ col|e }}</span>
     {% endfor %}
-    
+
 </span>
 <div class="container-fluid p-5 bg-white">
     <div class="row p-5">
         {% include "notif.html" %}
-        <form method="post" autocomplete="off" class="col-md-12 mx-auto f1" >
+        <form method="post" autocomplete="off" class="col-md-12 mx-auto f1">
             <h6 class="text-center">Website for SEO</h6>
             <h3 class="text-center"> {{session.website}}</h3>
             <hr>
             <h5 class="text-center mb-3">Select columns to show or hide</h5>
-            
+
             <div class="row">
                 {% for col in cols %}
-                
+
                 <div class="form-check col-3 mb-3">
-                    <input class="form-check-input {{col}}" type="checkbox" value="{{col}}" id="{{col}}" checked>
+                    <input class="form-check-input" type="checkbox" value="{{loop.index0}}" id="{{col}}" checked>
                     <label class="form-check-label" for="{{col}}">
                         {{col}}
                     </label>
                 </div>
-                
+
                 {% endfor %}
             </div>
             <hr>
@@ -48,7 +51,7 @@
         {% if session.website %}
         {{df|safe}}
         {% else %}
-        
+
         {% endif %}
     </div>
 </div>
@@ -56,17 +59,46 @@
 
 {% block js %}
 <script>
+    function toggleColumn(check) {
+
+    }
     $(function () {
         $('.dataframe').addClass('table table-bordered table-responsive')
         let colnames = $('.col_name')
         let checkboxes = $("input[type=checkbox]")
-        $.each(checkboxes, function (idx, value) { 
-            $(value).on('change',function(check){
-                console.log(check.target.value)                
+        $.each(checkboxes, function (idx, value) {
+            $(value).on('change', function (check) {
+                // toggle column in table based on checkbox inde
+                if ($(value).is(':checked')) {
+                    $('.dataframe tr').each(function (row, tr) {
+                        p = idx + 1
+                        $(tr).find('th:eq(' + p + ')').show()
+                        $(tr).find('td:eq(' + p + ')').show()
+                    })
+                } else {
+                    $('.dataframe tr').each(function (row, tr) {
+                        p = idx + 1
+                        $(tr).find('th:eq(' + p + ')').hide()
+                        $(tr).find('td:eq(' + p + ')').hide()
+                    })
+                }
             })
         });
+        $.each(checkboxes, function (idx, value) {
+            if ($(value).is(':checked')) {
+                $('.dataframe tr').each(function (row, tr) {
+                    p = idx + 1
+                    $(tr).find('th:eq(' + p + ')').show()
+                    $(tr).find('td:eq(' + p + ')').show()
+                })
+            } else {
+                $('.dataframe tr').each(function (row, tr) {
+                    p = idx + 1
+                    $(tr).find('th:eq(' + p + ')').hide()
+                    $(tr).find('td:eq(' + p + ')').hide()
+                })
+            }
+        })
     });
 </script>
 {% endblock %}
-
-
